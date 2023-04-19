@@ -1,21 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src;
 
 use Exception;
 
-class CurrencyRate
+class FurkanCurrencyRate implements CurrencyRateInterface
 {
-    public function getExchangeExampleRates(): array
+    private const API_URL = 'https://developers.paysera.com/tasks/api/currency-exchange-rates';
+
+    public function fetchRates(): array
     {
-        return [
-            'USD' => 1.1497,
-            'JPY' => 129.53,
-        ];
-    }
-    public function fetchRatesFromApi()
-    {
-        $apiUrl = 'https://developers.paysera.com/tasks/api/currency-exchange-rates';
+        $apiUrl = self::API_URL;
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $apiUrl);

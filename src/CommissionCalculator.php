@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Src;
 
@@ -7,13 +8,13 @@ class CommissionCalculator
     private $exchangeRates;
     private $withdrawals;
 
-    public function __construct($exchangeRates)
+    public function __construct(array $exchangeRates)
     {
         $this->exchangeRates = $exchangeRates;
         $this->withdrawals = [];
     }
 
-    public function calculate($userId, $userType, $operationType, $operationDate, $amount, $currency)
+    public function calculate($userId, $userType, $operationType, $operationDate, $amount, $currency): string
     {
         if ($operationType === 'deposit') {
             return $this->calculateDepositFee($amount, $currency);
@@ -30,14 +31,14 @@ class CommissionCalculator
         return 0;
     }
 
-    private function calculateDepositFee($amount, $currency)
+    private function calculateDepositFee($amount, $currency): string
     {
         $feePercentage = 0.0003;
         $fee = $amount * $feePercentage;
         return $this->roundUp($fee, $currency);
     }
 
-    private function calculatePrivateWithdrawFee($userId, $operationDate, $amount, $currency)
+    private function calculatePrivateWithdrawFee($userId, $operationDate, $amount, $currency): string
     {
         $feePercentage = 0.003;
         $weeklyLimitAmount = 1000;
@@ -76,14 +77,14 @@ class CommissionCalculator
         return $this->roundUp($fee, $currency);
     }
 
-    private function calculateBusinessWithdrawFee($amount, $currency)
+    private function calculateBusinessWithdrawFee($amount, $currency): string
     {
         $feePercentage = 0.005;
         $fee = $amount * $feePercentage;
         return $this->roundUp($fee, $currency);
     }
 
-    private function roundUp($value, $currency)
+    private function roundUp($value, $currency): string
     {
         $precision = 2;
         if ($currency === 'JPY') {
@@ -97,6 +98,6 @@ class CommissionCalculator
             $roundedValue = number_format($roundedValue, 2, '.', '');
         }
 
-        return $roundedValue;
+        return (string) $roundedValue;
     }
 }

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use Src\CommissionCalculator;
 use PHPUnit\Framework\TestCase;
-use Src\CurrencyRate;
+use Src\FurkanCurrencyRate;
 
 class CommissionCalculatorTest extends TestCase
 {
@@ -10,12 +12,17 @@ class CommissionCalculatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $payseraClient = new CurrencyRate();
-        $exchangeRates = $payseraClient->getExchangeExampleRates();
+        $exchangeRates = $this->getExchangeExampleRates();
         $this->commissionCalculator = new CommissionCalculator($exchangeRates);
     }
-
-    public function testCalculateCommission()
+    public function getExchangeExampleRates(): array
+    {
+        return [
+            'USD' => 1.1497,
+            'JPY' => 129.53,
+        ];
+    }
+    public function testCalculateCommission(): void
     {
         $inputs = [
             [

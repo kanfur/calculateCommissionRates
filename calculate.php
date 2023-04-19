@@ -4,12 +4,12 @@ require_once 'vendor/autoload.php';
 
 use Src\CommissionCalculator;
 use Src\CsvReader;
-use Src\CurrencyRate;
+use Src\FurkanCurrencyRate;
 
 
 $filename = $argv[1];
-$currencyRate = new CurrencyRate();
-$exchangeRates = $currencyRate->fetchRatesFromApi();
+$currencyRate = new FurkanCurrencyRate();
+$exchangeRates = $currencyRate->fetchRates();
 $calculator = new CommissionCalculator($exchangeRates);
 
 $operations = CsvReader::read($filename);
