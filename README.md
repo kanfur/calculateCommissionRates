@@ -16,6 +16,11 @@ Command to test with the data given below: `./vendor/bin/phpunit`
 
 `2016-02-19,5,private,withdraw,3000000,JPY`
 
+`ExchangeRate = [
+'USD' => 1.1497,
+'JPY' => 129.53,
+]`
+
 There are 5 class files in the project including unittest file
 
 - CommissionCalculator.php (calculation service)
